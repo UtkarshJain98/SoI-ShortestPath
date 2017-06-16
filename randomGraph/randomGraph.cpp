@@ -3,29 +3,48 @@
 
 //sing namespace TSnap;
 
-PNGraph Graph = TNGraph::New();
+PUNGraph Graph = TUNGraph::New();
 
 
-/*void generateRandomGraph(int n, int p, int m)
+void generateRandomGraph(int n, double p)
 {
-  printf("%d", n);
+
+
   for(int i = 0; i < n; i++)
   {
-    //Graph->AddNode(i);
-    printf("%d", i);
+    Graph->AddNode(i);
+    //printf("Node number is: %d\n", i);
   }
-  for(int i = 0; i < m; i++)
+
+  printf("Simulation not done\n");
+  printf("Number of edges is: %d\n", Graph->GetEdges());
+
+  for(int i = 0; i < n; i++)
   {
-    //Graph->AddEdge(rand() % 1000 + 1);
+    for(int j = i; j < n - i; j++)
+    {
+      //srand(time(NULL));
+      int rndNum = rand() % 100 + 1;
+      printf("this is the random number: %d", rndNum);
+      if(p * 100 > rndNum)
+      {
+
+        printf("rand was: %d and so Edge added\n", rndNum);
+        Graph->AddEdge(i , j);
+      }
+    }
   }
-} */
+
+  printf("Simulation done\n");
+}
 
 int main()
 {
-  //generateRandomGraph(10, 5, 10);
-  Graph = TSnap::GenRndGnm<PNGraph>(1000000, 2000000, false);
+  generateRandomGraph(10, 0.8);
+  //Graph = TSnap::GenRndGnm<PNGraph>(1000000, 2000000, false);
   //Graph->DelEdge(253,254);
-  printf( "%d", Graph->GetEdges() ); //<< endl;
-  printf("\nThe length is: %d\n", TSnap::GetShortPath(Graph, 253, 127));
+  printf("Nodes: %d\n", Graph->GetNodes());
+  printf("Edges: %d\n", Graph->GetEdges());
+  //printf("\nThe length is: %d\n", TSnap::GetShortPath(Graph, 253, 127));
   return 0;
 }
