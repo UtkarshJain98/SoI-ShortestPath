@@ -1,6 +1,9 @@
 #include "Snap.h"
 #include <iostream>
 #include <random>
+#include <vector>
+
+using namespace std;
 
 /*Generating a random undirected graph called Graph  */
 PUNGraph Graph = TUNGraph::New();
@@ -27,9 +30,9 @@ void generateRandomGraph(int n, double p)
       //srand(time(NULL));
       //int rndNum = rand() % 100 + 1;
       //printf("this is the random number: %d", rndNum);
-      std::random_device rd;
-      std::mt19937 gen(rd());
-      std::bernoulli_distribution rv_b(p);
+      random_device rd;
+      mt19937 gen(rd());
+      bernoulli_distribution rv_b(p);
 
       if( rv_b(gen) )
       {
@@ -96,15 +99,52 @@ void dijkstra (int a, int b, int n)
 //node and all the possibles nodes whose
 //number is greater than the source node
 //saves all the paths in a set/vector and
-// returns number of edges / number of edges
+// returns number of edges divide by
+// number of edges
 int shortestPath(int source)
 {
-  for(int i = source; i < Graph->GetNodes() -1; i++)
+  vector<int> MyVector; //should be <int, int> ??
+  double dist[Graph->GetEdges()];
+  double prev[Graph->GetEdges()];
+  int n = Graph->GetEdges();
+  int v = source;
+  for(int v = source; v < n; v++)
   {
-    //finding shortest path b/w source and source + i
-    for(int j = i; j < source + i; j++)
+    dist[v] = 0;
+    prev[v] = 0;
+    if(find(MyVector.begin(), MyVector.end(), v) == MyVector.end())
     {
-      
+      MyVector.push_back(v);
     }
   }
+
+  while(MyVector.size() != 0)
+  {
+    //select a u to remove
+    int i = source;
+    for(i = source; i < n; i++)
+    {
+      if(IsEdge(source, i))
+        break;
+    }
+    MyVector.erase(remove(MyVector.begin()), MyVector.end(), i), MyVector.end());
+
+    int noOfEdges = 0;
+    for(int a = 0; a < n; a++)
+    {
+      if(IsEdge(source, a))
+      {
+        noOfEdges ++;
+        int alt = dist[i] + 1;
+        if(alt < dist[v])
+        {
+          dist[v] = alt;
+          prev[v] = alt;
+        }
+      }
+    }
+
+  }
+
+
 }
